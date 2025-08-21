@@ -1,63 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dark Joiner</title>
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Joiner</title>
+  <style>
     body {
-        font-family: Arial, sans-serif;
-        background: #0d0d0d;
-        color: #f5f5f5;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
     }
-    h1 {
-        color: #ff0055;
-    }
-    a {
-        text-decoration: none;
-        color: #00ffff;
-        font-weight: bold;
-        margin-top: 20px;
-        font-size: 18px;
-    }
-    .link-box {
-        background: #222;
-        padding: 15px 25px;
-        border-radius: 10px;
-        text-align: center;
-    }
-</style>
+    h1 { color: #00ffff; }
+    p { font-size: 1.2em; margin: 10px 0; }
+  </style>
 </head>
 <body>
-    <h1>Dark Joiner</h1>
-    <div class="link-box" id="linkBox">
-        Generating join link...
-    </div>
+  <h1>Dark Joiner</h1>
+  <p id="info">Redirecionando para o Roblox...</p>
 
-<script>
+  <script>
     const params = new URLSearchParams(window.location.search);
-    const placeId = params.get('placeId');
-    const gameInstanceId = params.get('gameInstanceId');
+    const placeId = 109983668079237;
+    const gameInstanceId = params.get('gameInstanceId') || '';
 
-    const linkBox = document.getElementById('linkBox');
+    const infoEl = document.getElementById('info');
 
-    if (placeId && gameInstanceId) {
-        const joinLink = `https://www.roblox.com/games/${placeId}/?gameInstanceId=${gameInstanceId}`;
-        linkBox.innerHTML = `
-            <p>Click below to join:</p>
-            <a href="${joinLink}" target="_blank">Join Game</a>
-        `;
-        // Opcional: redirecionar automaticamente
-        // window.location.href = joinLink;
+    if (!gameInstanceId) {
+      infoEl.innerText = "GameInstanceId não encontrado na URL!";
     } else {
-        linkBox.innerHTML = `<p>Invalid parameters.</p>`;
+      infoEl.innerText = `Abrindo Roblox com PlaceId: ${placeId} e GameInstanceId: ${gameInstanceId}`;
+      window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
     }
-</script>
+  </script>
 </body>
 </html>
