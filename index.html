@@ -18,10 +18,27 @@
     }
     h1 { color: #00ffff; }
     p { font-size: 1.2em; margin: 10px 0; }
+
+    /* Spinner */
+    .spinner {
+      border: 6px solid #2c2c2c; /* cor da borda "fundo" */
+      border-top: 6px solid #00ffff; /* cor da borda animada */
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
   <h1>Dark Joiner</h1>
+  <div class="spinner"></div>
   <p id="info">Redirecionando para o Roblox...</p>
 
   <script>
@@ -34,8 +51,11 @@
     if (!gameInstanceId) {
       infoEl.innerText = "GameInstanceId não encontrado na URL!";
     } else {
-      infoEl.innerText = `Abrindo Roblox com PlaceId: ${placeId} e GameInstanceId: ${gameInstanceId}`;
-      window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
+      infoEl.innerText = `Abrindo Roblox, entrando no servidor...`;
+      // Pequeno delay para mostrar a animação antes de redirecionar
+      setTimeout(() => {
+        window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
+      }, 1000);
     }
   </script>
 </body>
