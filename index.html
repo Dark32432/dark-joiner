@@ -52,10 +52,8 @@
       infoEl.innerText = "GameInstanceId não encontrado na URL!";
     } else {
       infoEl.innerText = `Abrindo Roblox, entrando no servidor...`;
-      // Pequeno delay para mostrar a animação antes de redirecionar
-      setTimeout(() => {
-        window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
-      }, 1000);
+      // Redireciona imediatamente
+      window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
     }
   </script>
 </body>
