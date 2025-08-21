@@ -5,35 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dark Joiner</title>
   <style>
+    /* Reset básico */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, sans-serif;
-      background-color: #121212;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Arial', sans-serif;
       height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background: linear-gradient(-45deg, #0f0f0f, #121212, #0f0f0f, #121212);
+      background-size: 400% 400%;
+      animation: gradientBG 15s ease infinite;
+      color: #00ffff;
+      overflow: hidden;
       text-align: center;
     }
-    h1 { color: #00ffff; }
-    p { font-size: 1.2em; margin: 10px 0; }
 
-    /* Spinner */
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #00ffff;
+      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+      animation: neonText 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes neonText {
+      from { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
+      to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
+    }
+
+    p {
+      font-size: 1.5em;
+      margin-top: 20px;
+      color: #00ffff;
+      text-shadow: 0 0 5px #00ffff;
+    }
+
+    /* Spinner estilizado */
     .spinner {
-      border: 6px solid #2c2c2c; /* cor da borda "fundo" */
-      border-top: 6px solid #00ffff; /* cor da borda animada */
+      border: 6px solid rgba(0, 255, 255, 0.1);
+      border-top: 6px solid #00ffff;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       animation: spin 1s linear infinite;
-      margin: 20px auto;
+      margin: 30px auto;
+      box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
     }
 
     @keyframes spin {
       0% { transform: rotate(0deg); }
       100% { transform: rotate(360deg); }
     }
+
+    /* Animação sutil para a bolinha pulsar */
+    .spinner::after {
+      content: '';
+      display: block;
+      width: 10px;
+      height: 10px;
+      background: #00ffff;
+      border-radius: 50%;
+      margin: -28px auto 0;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(0.5); opacity: 0.6; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
+
   </style>
 </head>
 <body>
@@ -52,7 +104,7 @@
       infoEl.innerText = "GameInstanceId não encontrado na URL!";
     } else {
       infoEl.innerText = `Abrindo Roblox, entrando no servidor...`;
-      // Redireciona imediatamente
+      // Redirecionamento imediato
       window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
     }
   </script>
