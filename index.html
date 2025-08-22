@@ -1,220 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dark Joiner | Joining Server...</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dark Joiner | Joining Server...</title>
 
-<!-- Google Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-<style>
-:root {
-    --bg-color: #1a202c;
-    --card-color: #2d3748;
-    --primary-yellow: #facc15;
-    --primary-lime: #84cc16;
-    --text-color: #edf2f7;
-    --subtle-text: #a0aec0;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    overflow: hidden;
-}
-
-.background-shapes {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-}
-
-.shape {
-    position: absolute;
-    border-radius: 50%;
-    opacity: 0.1;
-    filter: blur(50px);
-}
-
-.shape1 {
-    width: 300px;
-    height: 300px;
-    background: var(--primary-yellow);
-    top: -100px;
-    left: -100px;
-    animation: move 20s infinite alternate ease-in-out;
-}
-
-.shape2 {
-    width: 400px;
-    height: 400px;
-    background: var(--primary-lime);
-    bottom: -150px;
-    right: -150px;
-    animation: move 25s infinite alternate ease-in-out;
-}
-
-.join-card {
-    background-color: var(--card-color);
-    padding: 40px;
-    border-radius: 16px;
-    text-align: center;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    z-index: 1;
-    animation: fadeIn 0.8s ease-out;
-    max-width: 90%;
-    width: 400px;
-}
-
-h1 {
-    font-size: 2rem;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 1rem;
-    color: var(--text-color);
-}
-
-p {
-    color: var(--subtle-text);
-    font-size: 1rem;
-    margin-bottom: 2rem;
-}
-
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 5px solid rgba(255, 255, 255, 0.2);
-    border-top-color: var(--primary-yellow);
-    border-radius: 50%;
-    margin: 0 auto 2rem auto;
-    animation: spin 1.2s linear infinite;
-}
-
-#retryBtn {
-    display: none;
-    padding: 12px 30px;
-    font-weight: 700;
-    background: transparent;
-    border: 2px solid var(--primary-yellow);
-    border-radius: 30px;
-    cursor: pointer;
-    color: var(--primary-yellow);
-    transition: 0.3s;
-}
-
-#retryBtn:hover {
-    background: var(--primary-yellow);
-    color: var(--bg-color);
-}
-
-.footer {
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.footer p {
-    margin: 0;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: var(--text-color);
-    opacity: 0.8;
-}
-
-.footer span { color: var(--primary-yellow); }
-
-#error-message {
-    color: var(--primary-yellow);
-    font-weight: 600;
-    display: none;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes move {
-    from { transform: translate(0,0) rotate(0deg); }
-    to { transform: translate(100px,50px) rotate(180deg); }
-}
-</style>
-</head>
-<body>
-<div class="background-shapes">
-    <div class="shape shape1"></div>
-    <div class="shape shape2"></div>
-</div>
-
-<div class="join-card">
-    <h1>Dark Joiner</h1>
-    <p id="info">Redirecting to Roblox...</p>
-    
-    <div id="loader">
-        <div class="spinner"></div>
-    </div>
-
-    <button id="retryBtn">Retry</button>
-
-    <div id="error-message">
-        <p>Error: Invalid server details. Please use a valid join link.</p>
-    </div>
-
-    <div class="footer">
-        <p>Created by <span>DARK</span></p>
-    </div>
-</div>
-
-<script>
-window.onload = function() {
-    const params = new URLSearchParams(window.location.search);
-    const placeId = 109983668079237; // Your fixed placeId
-    const gameInstanceId = params.get('gameInstanceId');
-
-    const infoEl = document.getElementById('info');
-    const loader = document.getElementById('loader');
-    const errorDiv = document.getElementById('error-message');
-    const retryBtn = document.getElementById('retryBtn');
-
-    function redirectToServer() {
-        if(gameInstanceId) {
-            infoEl.innerText = 'Opening Roblox, joining the server...';
-            window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
-
-            setTimeout(() => {
-                loader.style.display = 'none';
-                errorDiv.innerHTML = "<p>If Roblox didn't open, make sure the app is installed on your device.</p>";
-                errorDiv.style.display = 'block';
-                retryBtn.style.display = 'inline-block';
-            }, 5000);
-        } else {
-            loader.style.display = 'none';
-            errorDiv.style.display = 'block';
-            retryBtn.style.display = 'inline-block';
-        }
+  <style>
+    :root {
+      --bg-color: #121212;
+      --card-color: #1f1f1f;
+      --primary-blue: #00ffff;
+      --text-color: #ffffff;
+      --subtle-text: #a0a0a0;
     }
 
-    retryBtn.addEventListener('click', redirectToServer);
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      overflow: hidden;
+    }
 
-    redirectToServer();
-};
-</script>
+    .background-shapes {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .shape {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.1;
+      filter: blur(60px);
+    }
+    .shape1 {
+      width: 300px; height: 300px;
+      background: var(--primary-blue);
+      top: -100px; left: -100px;
+      animation: move 20s infinite alternate ease-in-out;
+    }
+    .shape2 {
+      width: 400px; height: 400px;
+      background: #0080ff;
+      bottom: -150px; right: -150px;
+      animation: move 25s infinite alternate ease-in-out;
+    }
+
+    @keyframes move {
+      from { transform: translate(0,0) rotate(0deg); }
+      to { transform: translate(100px,50px) rotate(180deg); }
+    }
+
+    .join-card {
+      background-color: var(--card-color);
+      padding: 40px;
+      border-radius: 16px;
+      text-align: center;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.05);
+      z-index: 1;
+      animation: fadeIn 0.8s ease-out;
+      max-width: 90%;
+      width: 400px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 1rem 0;
+      color: var(--primary-blue);
+      text-shadow: 0 0 10px var(--primary-blue), 0 0 20px var(--primary-blue);
+    }
+
+    p {
+      color: var(--subtle-text);
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .spinner {
+      width: 60px; height: 60px;
+      border: 5px solid rgba(255,255,255,0.2);
+      border-top-color: var(--primary-blue);
+      border-radius: 50%;
+      margin: 0 auto 2rem auto;
+      animation: spin 1.2s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-color);
+      opacity: 0.8;
+    }
+
+    #error-message {
+      color: var(--primary-blue);
+      font-weight: 600;
+      display: none;
+    }
+
+    #joinBtn {
+      display: none;
+      padding: 10px 20px;
+      background: var(--primary-blue);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-top: 1rem;
+      transition: transform 0.2s;
+    }
+
+    #joinBtn:hover {
+      transform: scale(1.05);
+    }
+
+  </style>
+</head>
+<body>
+  <div class="background-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+  </div>
+
+  <div class="join-card">
+    <h1>Dark Joiner</h1>
+    <p id="info">Opening Roblox and joining the server...</p>
+
+    <div class="spinner" id="loader"></div>
+
+    <button id="joinBtn">Click to Join</button>
+
+    <div id="error-message"></div>
+
+    <div class="footer">
+      <p>Created by <span>Dark Dev</span></p>
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const placeId = 109983668079237;
+    const gameInstanceId = params.get("gameInstanceId");
+    const info = document.getElementById("info");
+    const loader = document.getElementById("loader");
+    const joinBtn = document.getElementById("joinBtn");
+    const errorDiv = document.getElementById("error-message");
+
+    if (gameInstanceId) {
+      const robloxUrl = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
+
+      // Attempt automatic redirect
+      window.location.href = robloxUrl;
+
+      // Fallback button for PC/mobile if redirect fails
+      setTimeout(() => {
+        info.innerText = "If Roblox did not open automatically, click the button below:";
+        joinBtn.style.display = "inline-block";
+        joinBtn.onclick = () => { window.location.href = robloxUrl; };
+      }, 500);
+
+    } else {
+      loader.style.display = "none";
+      info.style.display = "none";
+      errorDiv.innerHTML = "<p>GameInstanceId not found in the URL!</p>";
+      errorDiv.style.display = "block";
+    }
+  </script>
 </body>
 </html>
-
