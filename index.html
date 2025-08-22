@@ -1,112 +1,219 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dark Joiner</title>
-  <style>
-    /* Reset básico */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dark Joiner | Joining Server...</title>
 
-    body {
-      font-family: 'Arial', sans-serif;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      background: linear-gradient(-45deg, #0f0f0f, #121212, #0f0f0f, #121212);
-      background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
-      color: #00ffff;
-      overflow: hidden;
-      text-align: center;
-    }
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;900&display=swap" rel="stylesheet">
 
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
+<style>
+:root {
+    --bg-color: #1a202c;
+    --card-color: #2d3748;
+    --primary-yellow: #facc15;
+    --primary-lime: #84cc16;
+    --text-color: #edf2f7;
+    --subtle-text: #a0aec0;
+}
 
-    h1 {
-      font-size: 3em;
-      color: #00ffff;
-      text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
-      animation: neonText 1.5s ease-in-out infinite alternate;
-    }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
 
-    @keyframes neonText {
-      from { text-shadow: 0 0 5px #00ffff, 0 0 10px #00ffff; }
-      to { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff; }
-    }
+.background-shapes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
+}
 
-    p {
-      font-size: 1.5em;
-      margin-top: 20px;
-      color: #00ffff;
-      text-shadow: 0 0 5px #00ffff;
-    }
+.shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.1;
+    filter: blur(50px);
+}
 
-    /* Spinner estilizado */
-    .spinner {
-      border: 6px solid rgba(0, 255, 255, 0.1);
-      border-top: 6px solid #00ffff;
-      border-radius: 50%;
-      width: 60px;
-      height: 60px;
-      animation: spin 1s linear infinite;
-      margin: 30px auto;
-      box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
-    }
+.shape1 {
+    width: 300px;
+    height: 300px;
+    background: var(--primary-yellow);
+    top: -100px;
+    left: -100px;
+    animation: move 20s infinite alternate ease-in-out;
+}
 
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
+.shape2 {
+    width: 400px;
+    height: 400px;
+    background: var(--primary-lime);
+    bottom: -150px;
+    right: -150px;
+    animation: move 25s infinite alternate ease-in-out;
+}
 
-    /* Animação sutil para a bolinha pulsar */
-    .spinner::after {
-      content: '';
-      display: block;
-      width: 10px;
-      height: 10px;
-      background: #00ffff;
-      border-radius: 50%;
-      margin: -28px auto 0;
-      animation: pulse 1s infinite alternate;
-    }
+.join-card {
+    background-color: var(--card-color);
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 1;
+    animation: fadeIn 0.8s ease-out;
+    max-width: 90%;
+    width: 400px;
+}
 
-    @keyframes pulse {
-      from { transform: scale(0.5); opacity: 0.6; }
-      to { transform: scale(1.2); opacity: 1; }
-    }
+h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    color: var(--text-color);
+}
 
-  </style>
+p {
+    color: var(--subtle-text);
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.spinner {
+    width: 60px;
+    height: 60px;
+    border: 5px solid rgba(255, 255, 255, 0.2);
+    border-top-color: var(--primary-yellow);
+    border-radius: 50%;
+    margin: 0 auto 2rem auto;
+    animation: spin 1.2s linear infinite;
+}
+
+#retryBtn {
+    display: none;
+    padding: 12px 30px;
+    font-weight: 700;
+    background: transparent;
+    border: 2px solid var(--primary-yellow);
+    border-radius: 30px;
+    cursor: pointer;
+    color: var(--primary-yellow);
+    transition: 0.3s;
+}
+
+#retryBtn:hover {
+    background: var(--primary-yellow);
+    color: var(--bg-color);
+}
+
+.footer {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-color);
+    opacity: 0.8;
+}
+
+.footer span { color: var(--primary-yellow); }
+
+#error-message {
+    color: var(--primary-yellow);
+    font-weight: 600;
+    display: none;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes move {
+    from { transform: translate(0,0) rotate(0deg); }
+    to { transform: translate(100px,50px) rotate(180deg); }
+}
+</style>
 </head>
 <body>
-  <h1>Dark Joiner</h1>
-  <div class="spinner"></div>
-  <p id="info">Redirecionando para o Roblox...</p>
+<div class="background-shapes">
+    <div class="shape shape1"></div>
+    <div class="shape shape2"></div>
+</div>
 
-  <script>
+<div class="join-card">
+    <h1>Dark Joiner</h1>
+    <p id="info">Redirecting to Roblox...</p>
+    
+    <div id="loader">
+        <div class="spinner"></div>
+    </div>
+
+    <button id="retryBtn">Retry</button>
+
+    <div id="error-message">
+        <p>Error: Invalid server details. Please use a valid join link.</p>
+    </div>
+
+    <div class="footer">
+        <p>Created by <span>LXZR</span></p>
+    </div>
+</div>
+
+<script>
+window.onload = function() {
     const params = new URLSearchParams(window.location.search);
-    const placeId = 109983668079237;
-    const gameInstanceId = params.get('gameInstanceId') || '';
+    const placeId = 109983668079237; // Your fixed placeId
+    const gameInstanceId = params.get('gameInstanceId');
 
     const infoEl = document.getElementById('info');
+    const loader = document.getElementById('loader');
+    const errorDiv = document.getElementById('error-message');
+    const retryBtn = document.getElementById('retryBtn');
 
-    if (!gameInstanceId) {
-      infoEl.innerText = "GameInstanceId não encontrado na URL!";
-    } else {
-      infoEl.innerText = `Abrindo Roblox, entrando no servidor...`;
-      // Redirecionamento imediato
-      window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
+    function redirectToServer() {
+        if(gameInstanceId) {
+            infoEl.innerText = 'Opening Roblox, joining the server...';
+            window.location.href = `roblox://placeId=${placeId}&gameInstanceId=${gameInstanceId}`;
+
+            setTimeout(() => {
+                loader.style.display = 'none';
+                errorDiv.innerHTML = "<p>If Roblox didn't open, make sure the app is installed on your device.</p>";
+                errorDiv.style.display = 'block';
+                retryBtn.style.display = 'inline-block';
+            }, 5000);
+        } else {
+            loader.style.display = 'none';
+            errorDiv.style.display = 'block';
+            retryBtn.style.display = 'inline-block';
+        }
     }
-  </script>
+
+    retryBtn.addEventListener('click', redirectToServer);
+
+    redirectToServer();
+};
+</script>
 </body>
 </html>
